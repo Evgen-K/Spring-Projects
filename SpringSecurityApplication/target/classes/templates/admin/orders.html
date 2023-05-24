@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Все заказы</title>
+    <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="menu1">
+        <div style="width: 100px" class="item1"><a href="/admin"><img src="/img/Logo.png" alt="Logo_Shop-Test"/></a>
+        </div>
+        <div class="item2"><a href="/admin/product/add">Добавить товар</a></div>
+        <div class="item3"><a href="/admin/products">Товары</a></div>
+        <div class="item4" id="selectMenu"><a href="/admin/orders">Заказы</a></div>
+        <div class="item5"><a href="/admin/persons">Пользователи</a></div>
+        <div class="item6">
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <!--    <input type="submit">ВЫХОД</input>-->
+                <input class="menu_submit" type="submit" value="ВЫХОД"/>
+            </form>
+        </div>
+    </div>
+    <hr>
+</header>
+
+<!--=============================================================================================-->
+
+<h3>Поиск заказа</h3>
+<form th:method="POST" th:action="@{/admin/order/search}">
+    <div class="fieldset">
+        <fieldset>
+            <legend>Поиск заказа по номеру</legend>
+            <label for="search">Введите последние 4-е символа номера заказа</label>
+            <input type="text" id="search" name="search" th:value="*{value_search}" maxlength="4">
+            <!--        <br>-->
+            <input class="main" type="submit" value="Найти">
+        </fieldset>
+    </div>
+</form>
+
+<hr th:if="${search_order != null} and ${not search_order.isEmpty()}">
+<h3 th:if="${search_order != null} and ${not search_order.isEmpty()}">Результат поиска</h3>
+<hr th:unless="${search_order != null} and ${not search_order.isEmpty()}">
+<h3 th:unless="${search_order != null} and ${not search_order.isEmpty()}">Результат поиска: 0 заказов</h3>
+<div class="simple">
+    <div th:each="order : ${search_order}">
+        <h4><a th:href="@{/admin/order/info/{id}(id=${order.getId()})}" th:text="'Заказ №' + ${order.getNumber()}"></a>
+        </h4>
+        <div>
+            <img style="display: block; margin: 0 auto"  th:src="'/img/' + ${order.getProduct().getImageList()[0].getFileName()}" width="150px">
+        </div>
+        <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}">
+        <p th:text="'Количество: ' + ${order.getCount()}">
+        <p th:text="'Цена: ' + ${order.getPrice()}">
+        <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy hh:mm:ss')}"></p>
+        <p th:text="'Login/id заказчика: ' + ${order.getPerson().getLogin()} + '/' + ${order.getPerson().getId()}"></p>
+        <p th:text="'Cтатус: ' + ${order.getStatus().getDisplayValue()}">
+    </div>
+</div>
+<hr>
+
+<!--=============================================================================================-->
+
+<h3>Все заказы</h3>
+<div class="simple">
+    <div th:each="order : ${orders}">
+        <h4><a th:href="@{/admin/order/info/{id}(id=${order.getId()})}" th:text="'Заказ №' + ${order.getNumber()}"></a>
+        </h4>
+        <div>
+            <img style="display: block; margin: 0 auto" th:src="'/img/' + ${order.getProduct().getImageList()[0].getFileName()}" width="150px">
+        </div>
+        <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}">
+        <p th:text="'Количество: ' + ${order.getCount()}">
+        <p th:text="'Цена: ' + ${order.getPrice()}">
+        <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy hh:mm:ss')}"></p>
+        <p th:text="'Login/id заказчика: ' + ${order.getPerson().getLogin()} + '/' + ${order.getPerson().getId()}"></p>
+        <p th:text="'Cтатус: ' + ${order.getStatus().getDisplayValue()}">
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи магазина</title>
+    <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="menu1">
+        <div style="width: 100px" class="item1"><a href="/admin"><img src="/img/Logo.png" alt="Logo_Shop-Test"/></a>
+        </div>
+        <div class="item2"><a href="/admin/product/add">Добавить товар</a></div>
+        <div class="item3"><a href="/admin/products">Товары</a></div>
+        <div class="item4"><a href="/admin/orders">Заказы</a></div>
+        <div class="item5" id="selectMenu"><a href="/admin/persons">Пользователи</a></div>
+        <div class="item6">
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <input class="menu_submit" type="submit" value="ВЫХОД"/>
+            </form>
+        </div>
+    </div>
+    <hr>
+</header>
+
+<h3>Все пользователи</h3>
+<div class="simple">
+    <div th:each="person : ${persons}">
+        <h3><a th:href="@{/admin/person/info/{id}(id=${person.getId()})}"
+               th:text="'Логин: ' + ${person.getLogin()}"></a></h3>
+        <p th:text="'ID: ' + ${person.getId()}"></p>
+        <p th:text="'Роль: ' + ${person.getRole()}"></p>
+        <p th:text="'Количество заказов: ' + ${person.getOrderList().size()}"></p>
+        <p th:text="'Количество товаров в корзине: ' + ${person.getProductList().size()}"></p>
+        <hr>
+    </div>
+</div>
+</body>
+</html>

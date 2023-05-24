@@ -1,0 +1,92 @@
+form.main {
+  width: 300px;
+  padding: 25px 40px;
+  margin: 100px auto;
+  background-color: white;
+  border: 2px solid #19477d;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+}
+
+form.addProduct {
+  width: 500px;
+  padding: 25px 40px;
+  margin: 0px auto;
+  background-color: white;
+  border: 2px solid #19477d;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+}
+
+form.addProduct textarea.description{
+  height: 100px;
+}
+
+form.addProduct textarea.seller{
+  height: 50px;
+}
+
+form#registration {
+  margin: -95px auto;
+  border: 1px solid #19477d;
+}
+
+form#authentication {
+  margin: -95px auto;
+  border: 1px solid #19477d;
+}
+
+body {
+  background-color: white;
+}
+
+label {
+  margin-left: 5px;
+}
+
+input[type="text"], input[type="password"], input[type="number"] {
+  height: 20px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 2px solid dodgerblue;
+  outline: none;
+}
+
+select div option{
+  height: 30px;
+}
+
+option{
+  height: 20px;
+}
+
+textarea {
+  padding: 5px;
+  border-radius: 10px;
+  border: 2px solid dodgerblue;
+  outline: none;
+
+  resize: vertical;
+}
+
+input[type="submit"].main {
+  height: 25px;
+  padding: 5px;
+  margin-top: 10px;
+  /*margin: 10px;*/
+  color: white;
+  background-color: dodgerblue;
+  border-radius: 10px;
+  border: none;
+}
+
+button:hover {
+  font-weight: 600;
+}
+
+input[type="submit"].main:hover, input[type="submit"].registration:hover, input[type="submit"].registrationUp:hover{
+  font-weight: 600;
+}
+

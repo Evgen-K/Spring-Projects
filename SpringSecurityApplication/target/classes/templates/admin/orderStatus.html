@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Все заказы</title>
+    <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="menu1">
+        <div style="width: 100px" class="item1"><a href="/admin"><img src="/img/Logo.png" alt="Logo_Shop-Test"/></a>
+        </div>
+        <div class="item2"><a href="/admin/product/add">Добавить товар</a></div>
+        <div class="item3"><a href="/admin/products">Товары</a></div>
+        <div class="item4" id="selectMenu"><a href="/admin/orders">Заказы</a></div>
+        <div class="item5"><a href="/admin/persons">Пользователи</a></div>
+        <div class="item6">
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <input class="menu_submit" type="submit" value="ВЫХОД"/>
+            </form>
+        </div>
+    </div>
+    <hr>
+</header>
+
+<h3 th:text="'Информация о заказе №' + ${order.getNumber()}"></h3>
+<div class="container_cart">
+    <form th:method="POST" th:action="@{/admin/order/edit_status/{id}(id=${order.getId()})}" th:object="${order}">
+        <div>
+            <label for="status">Статус заказа товара: </label>
+            <select name="status" th:field="*{status}" id="status">
+                <option th:each="enum:${T(com.example.springsecurityapplication.enumm.Status).values()}"
+                        th:text="${enum.getDisplayValue}"
+                        th:value="${enum}"></option>
+                <input class="main" type="submit" value="Сохранить">
+            </select>
+        </div>
+    </form>
+
+    <img class="admin" th:src="'/img/' + ${order.getProduct().getImageList()[0].getFileName()}" width="300px">
+    <p style="width: 500px; text-align: center" th:text="'Наименование: ' + ${order.getProduct().getTitle()}">
+    <p th:text="'Количество: ' + ${order.getCount()}">
+    <p th:text="'Цена: ' + ${order.getPrice()}">
+    <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
+    <p th:text="'Login/id заказчика: ' + ${order.getPerson().getLogin()} + '/' + ${order.getPerson().getId()}"></p>
+    <p th:text="'Cтатус: ' + ${order.getStatus().getDisplayValue()}">
+</div>
+</body>
+</html>

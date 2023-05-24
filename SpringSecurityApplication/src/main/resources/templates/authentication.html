@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Аутентификация</title>
+    <link th:href="@{/css/forms.css}" type="text/css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="menu1">
+        <div style="width: 100px" class="item1"><a href="/product"><img src="/img/Logo.png" alt="Logo_Shop-Test"/></a>
+        </div>
+        <div class="item3"><a href="/product">Товары</a></div>
+        <div class="item4" id="selectMenu"><a href="/authentication">Войти</a></div>
+        <div class="item5"><a href="/registration">Регистрация</a></div>
+    </div>
+    <hr>
+</header>
+<form class="main" method="post" action="/process_login">
+    <h2>Вход</h2>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <label for="username">Логин: </label>
+    <input type="text" placeholder="Введите логин" name="username" id="username">
+    <label for="password">Пароль: </label>
+    <input type="password" placeholder="Введите пароль" name="password" id="password">
+    <div th:if="${param.error}" style="color: red">
+        Неправильный логин или пароль
+    </div>
+    <input class="registrationUp" type="submit" value="Войти">
+</form>
+<form class="main" id="registration" method="get" action="/registration">
+    <input class="registration" type="submit" value="Регистрация">
+</form>
+</body>
+</html>

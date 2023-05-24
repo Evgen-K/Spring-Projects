@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="menu1">
+        <div style="width: 100px" class="item1"><a href="/person account"><img src="/img/Logo.png"
+                                                                               alt="Logo_Shop-Test"/></a></div>
+        <div class="item2" id="selectMenu"><a href="/person account">Товары</a></div>
+        <div class="item3"><a href="/orders">Заказы</a></div>
+        <div class="item4"><a href="/cart">Корзина</a></div>
+        <div class="item5">
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <!--    <input type="submit">ВЫХОД</input>-->
+                <input class="menu_submit" type="submit" value="ВЫХОД"/>
+            </form>
+        </div>
+    </div>
+    <hr>
+</header>
+
+<h3>Cортировка, поиск, фильтрация</h3>
+<form th:method="POST" th:action="@{/person account/product/search}">
+    <div class="fieldset">
+        <fieldset class="search">
+            <legend>Выберите параметры для сортировки, поиска, фильтрации</legend>
+            <label for="search">Поиск по наименованию</label>
+            <input type="text" id="search" name="search" th:value="*{value_search}">
+            <label>&nbsp; &nbsp;Цена, &#8381;</label>
+            <label for="ot">от</label>
+            <input style="width: 50px" type="text" name="ot" id="ot" th:value="*{value_price_ot}">
+            <label for="do">до</label>
+            <input style="width: 50px" type="text" name="do" id="do" th:value="*{value_price_do}">
+            <hr>
+            <div>
+                <input class="custom-radio" type="radio" id="ascending_price" name="price"
+                       value="sorted_by_ascending_price">
+                <label for="ascending_price">Сортировать по возрастанию цены</label>
+                <input class="custom-radio" type="radio" id="descending_price" name="price"
+                       value="sorted_by_descending_price">
+                <label for="descending_price">Сортировать по убыванию цены</label>
+                <hr>
+                <label>Категория товаров: </label>
+                <input class="custom-radio" type="radio" id="furniture" name="contract" value="furniture">
+                <label for="furniture">Мебель</label>
+                <input class="custom-radio" type="radio" id="appliances" name="contract" value="appliances">
+                <label for="appliances">Бытовая техника</label>
+                <input class="custom-radio" type="radio" id="clothes" name="contract" value="clothes">
+                <label for="clothes">Одежда</label>
+                <hr>
+                <div style="display: flex">
+                    <input class="main" style="margin: 0 auto" type="submit" value="Найти">
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</form>
+
+<hr th:if="${search_product != null} and ${not search_product.isEmpty()}">
+<h3 th:if="${search_product != null} and ${not search_product.isEmpty()}">Результаты поиска</h3>
+<hr th:unless="${search_product != null} and ${not search_product.isEmpty()}">
+<h3 th:unless="${search_product != null} and ${not search_product.isEmpty()}">Результаты поиска: 0</h3>
+
+<div class="productsContainer">
+    <figure class="photo" th:each="product : ${search_product}">
+        <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+        <figcaption>
+            <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+            <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        </figcaption>
+    </figure>
+</div>
+<hr>
+<h3>Доступные товары:</h3>
+<div class="productsContainer">
+    <figure class="photo" th:each="product : ${products}">
+        <img th:src="'/img/' + ${product.imageList[0].getFileName()}">
+        <figcaption>
+            <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+            <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+            <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в корзину</a>
+        </figcaption>
+    </figure>
+</div>
+</body>
+</html>
